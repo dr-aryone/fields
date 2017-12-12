@@ -28,7 +28,7 @@
     var typeNumber = "number";
 
     /**
-     * Creates a new Fields instance.
+     * Creates a new Module instance.
      *
      * @public
      * @class
@@ -37,14 +37,14 @@
      * @param {String} [options.email]
      * @param {Array} [options.fields]
      */
-    function Fields(options) {
+    function Module(options) {
         var inst = this;
         var settings;
 
-        settings = inst._settings = mergeSettings(Fields.defaultOptions, options);
+        settings = inst._settings = mergeSettings(Module.defaultOptions, options);
 
         if (!settings.email) {
-            throw new Error("Email is required when initializing a new Fields instance.");
+            throw new Error("Email is required when initializing a new Module instance.");
         }
 
         if (settings.element) {
@@ -65,22 +65,22 @@
     }
 
     /**
-     * Fields - Public properties
+     * Module - Public properties
      * ************************
      */
 
     /**
-     * Default options for Fields instance.
+     * Default options for Module instance.
      *
      * @public
-     * @memberof Fields
+     * @memberof Module
      */
 
-    Fields.defaultOptions = {
+    Module.defaultOptions = {
     };    
 
     /**
-     * Fields - Private methods
+     * Module - Private methods
      * ************************
      */
 
@@ -88,7 +88,7 @@
      * 
      * @private
      */
-    Fields.prototype._buildField = function(field) {
+    Module.prototype._buildField = function(field) {
         var label = doc.createElement("label");
         label.innerText = field.name;
 
@@ -112,7 +112,7 @@
      * 
      * @private
      */
-    Fields.prototype._buildModal = function(email) {
+    Module.prototype._buildModal = function(email) {
         var form = doc.createElement("form");
         form.action = "https://formspree.io/"+email;
         form.method = "POST";        
@@ -128,14 +128,14 @@
      * 
      * @private
      */
-    Fields.prototype._initialize = function() {
+    Module.prototype._initialize = function() {
         var inst = this;
         var modal;
 
         modal = inst._modal = inst._buildModal(inst._settings.email);        
 
         inst._settings.fields.forEach(function (field) {
-            var el = Fields.prototype._buildField(field);
+            var el = Module.prototype._buildField(field);
 
             inst._modal.appendChild(el);
         });        
@@ -164,6 +164,6 @@
         return ret;    
     }
 
-    return Fields;
+    return Module;
 
 }));
