@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Fields - Demo</title>
+    <link rel="stylesheet" href="../fields.css" type="text/css">
+    <link rel="stylesheet" href="demo.css" type="text/css">
+</head>
+<body>
+    <h1>DEMO</h1>
+    <p>
+        <button type="button" id="open">Open</button>
+    </p>
+
+    <script type="text/javascript" src="../fields.js"></script>
+    <script type="text/javascript">
+        var form = new Fields({
+            element: "#open",
+            email: "nenglert@gmail.com",
+            fields: [
+                {
+                    name: "email",
+                    type: "email"
+                },
+                {
+                    name: "comment",
+                    type: "text"
+                }
+            ]
+        });
+    </script>
+</body>
+</html>
