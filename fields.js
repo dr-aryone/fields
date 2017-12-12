@@ -83,46 +83,6 @@
      * Module - Private methods
      * ************************
      */
-
-    /**
-     * 
-     * @private
-     */
-    Module.prototype._buildField = function(field) {
-        var label = doc.createElement("label");
-        label.innerText = field.name;
-
-        var input = doc.createElement("input");
-        input.name = field.name;
-        input.type = field.type;
-
-        var wrapper = doc.createElement("div");
-        wrapper.className = "fields-field";
-        wrapper.appendChild(label);
-        wrapper.appendChild(input);
-
-        if (field.class && field.class.length > 0) {
-            wrapper.classList.add(field.class);
-        }
-
-        return wrapper;
-    }
-
-    /**
-     * 
-     * @private
-     */
-    Module.prototype._buildModal = function(email) {
-        var form = doc.createElement("form");
-        form.action = "https://formspree.io/"+email;
-        form.method = "POST";        
-
-        var modal = doc.createElement("div");
-        modal.id = "fields-modal"
-        modal.appendChild(form);
-
-        return modal;
-    }
     
      /**
      * 
@@ -130,22 +90,68 @@
      */
     Module.prototype._initialize = function() {
         var inst = this;
-        var modal;
+        var form;
 
-        modal = inst._modal = inst._buildModal(inst._settings.email);        
+        form = inst._form = new Form(inst._settings.email);        
 
-        inst._settings.fields.forEach(function (field) {
-            var el = Module.prototype._buildField(field);
-
-            inst._modal.appendChild(el);
+        inst._settings.fields.forEach(function (fieldSettings) {
+            var field = new Field(fieldSettings);
+            form.addField(field);
         });        
 
         inst._settings.element.onclick = function() {
             console.log("HI");
         }
 
-        body.appendChild(modal);
+        body.appendChild(form);
     }
+
+
+    function Form(email) {
+        var inst = this;
+        var form, modal;
+
+        form = inst._form = doc.createElement("form");
+        form.action = "https://formspree.io/"+email;
+        form.method = "POST";        
+
+        modal = inst._modal = doc.createElement("div");
+        modal.id = "fields-modal"
+        modal.appendChild(form);
+
+        return modal;
+    }
+
+    Form.prototype.addField = function(field) {
+        var inst = this;
+
+        inst._form.appendChild(field);
+    }
+
+
+    function Field(settings) {
+        var inst = this;
+        var label, input, wrapper;
+
+        label = inst._label = doc.createElement("label");
+        label.innerText = settings.name;
+
+        input = inst._input = doc.createElement("input");
+        input.name = settings.name;
+        input.type = settings.type;
+
+        wrapper = inst._wrapper = doc.createElement("div");
+        wrapper.className = "fields-field";
+        wrapper.appendChild(label);
+        wrapper.appendChild(input);
+
+        if (settings.class && settings.class.length > 0) {
+            wrapper.classList.add(settings.class);
+        }
+
+        return wrapper;
+    }
+
 
     /**
      * Merge default settings with user settings. The returned object is a new
