@@ -1,3 +1,68 @@
-.fields-field.hidden {
+#fields-modal-wrapper {
+    align-items:center;
+    background-color:rgba(255, 255, 255, 0.8);
+    display:flex;
+    justify-content:center;
+    position:absolute;
+    top:0;
+    right:0;
+    left:0;
+    bottom:0;
+}
+
+#fields-modal {
+    background-color:#fff;
+    border: solid 1px #ccc;
+    max-width:500px;
+    padding:20px;
+    width: 40%;
+}
+
+.fields-submit {    
+    background-color: #33C3F0;
+    border: 1px solid #33C3F0;
+    border-radius: 4px;
+    box-sizing: border-box;
+    color: #FFF;
+    cursor: pointer;    
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    height: 38px;
+    letter-spacing: .1rem;
+    line-height: 38px;
+    padding: 0 30px;
+    text-align: center;    
+    text-decoration: none;
+    text-transform: uppercase;    
+    white-space: nowrap;    
+}
+
+.fields-control.hidden {
     display: none;
+}
+
+.fields-control label {
+    color: #222;
+    display: block;
+    margin-bottom: .5rem;
+    font-weight: 600;
+}
+
+.fields-control input[type="email"], 
+.fields-control input[type="number"], 
+.fields-control input[type="text"], 
+.fields-control input[type="tel"], 
+.fields-control input[type="url"], 
+.fields-control textarea, 
+.fields-control select {    
+    background-color: #fff;
+    border: 1px solid #D1D1D1;
+    border-radius: 4px;
+    box-shadow: none;
+    box-sizing: border-box;
+    height: 38px;
+    margin-bottom: 1.5rem;    
+    padding: 6px 10px;
+    width: 100%;
 }
