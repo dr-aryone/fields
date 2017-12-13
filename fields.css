@@ -20,10 +20,11 @@
 }
 
 .fields-success {    
-    background-color: #d4edda;
-    border: 1px solid #c3e6cb;
+    background-color: #2bd16d;
+    border: 1px solid #2bd16d;
     border-radius: 4px;
-    color: #155724;
+    color: #fff;
+    font-weight: 600;
     height: 38px;
     line-height: 38px;
     margin-top: 0;
