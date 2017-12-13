@@ -100,7 +100,7 @@
         var inst = this;
         var form;
 
-        form = inst._form$ = new Form(email);        
+        form = inst._form = new Form(email);        
 
         inst._settings.fields.forEach(function (fieldSettings) {
             var field = new Field(fieldSettings);
@@ -113,8 +113,8 @@
     }
 
     Module.prototype._onOpenClick = function () {
-        // TODO: Open modal window with form
-        console.log("HI");
+        var inst = this;
+        inst._form.show();
     }
 
 
@@ -124,22 +124,31 @@
         inst._fields = {};
         inst._formUrl = "https://formspree.io/"+email;
 
+        var cancel = doc.createElement("button");
+        cancel.className = "fields-cancel"
+        cancel.innerText = "Cancel";
+        cancel.type = "button";        
+        cancel.onclick = () => inst.hide();
+
         var submit = doc.createElement("button");
         submit.className = "fields-submit"
-        submit.innerText = "Send";
+        submit.innerText = "Submit";
         submit.type = "button";        
-        submit.onclick = () => inst._onSubmit();
+        submit.onclick = () => inst._onSubmitClick();
 
         var group = inst._fields$ = doc.createElement("group");
         group.className = "fields-group";
 
         var form = doc.createElement("div");
         form.id = "fields-modal"
-        form.appendChild(group);  
-        form.appendChild(submit);   
+        form.appendChild(group);            
+        form.appendChild(submit); 
+        form.appendChild(cancel);           
 
         var modal = inst._modal$ = doc.createElement("div");
         modal.id = "fields-modal-wrapper";
+        modal.style.display = "none";
+        modal.onclick = (evt) => inst._onBackgroundClick(evt);
         modal.appendChild(form);
     }
 
@@ -154,7 +163,23 @@
         return inst._modal$;
     }
 
-    Form.prototype._onSubmit = function() {
+    Form.prototype.hide = function() {
+        var inst = this;
+        inst.getRootElement().style.display = "none";
+    }
+
+    Form.prototype.show = function() {
+        var inst = this;
+        inst.getRootElement().style.display = "flex";
+    }    
+
+    Form.prototype._onBackgroundClick = function(evt) {
+        var inst = this;
+        if (evt.target !== inst._modal$) return;
+        inst.hide();
+    }
+
+    Form.prototype._onSubmitClick = function() {
         var inst = this;
         var data = {};
         

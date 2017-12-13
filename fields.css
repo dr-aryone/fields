@@ -18,12 +18,13 @@
     width: 40%;
 }
 
-.fields-submit {    
-    background-color: #33C3F0;
-    border: 1px solid #33C3F0;
-    border-radius: 4px;
+.fields-cancel,
+.fields-submit {
+    background-color: transparent;
+    border: 1px solid #bbb;
+    border-radius: 4px;            
     box-sizing: border-box;
-    color: #FFF;
+    color: #555;    
     cursor: pointer;    
     display: inline-block;
     font-size: 11px;
@@ -31,11 +32,19 @@
     height: 38px;
     letter-spacing: .1rem;
     line-height: 38px;
+    margin-right: 6px;
     padding: 0 30px;
     text-align: center;    
     text-decoration: none;
     text-transform: uppercase;    
     white-space: nowrap;    
+}
+
+.fields-submit {
+    background-color: #33C3F0;
+    border: 1px solid #33C3F0;
+    border-radius: 4px;
+    color: #FFF;
 }
 
 .fields-control.hidden {
