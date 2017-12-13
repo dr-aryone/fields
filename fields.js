@@ -75,13 +75,15 @@
     Module.defaultOptions = {
         fields: [
             {
-                label: "Email Address",
+                label: "Your Email",
                 name: "email",
+                placeholder: "test@mailbox.com",
                 type: "email"
             },
             {
                 label: "Comments",
                 name: "comment",
+                placeholder: "Hey!",
                 type: "text"
             }
         ]
@@ -126,21 +128,27 @@
 
         var cancel = doc.createElement("button");
         cancel.className = "fields-cancel"
-        cancel.innerText = "Cancel";
+        cancel.innerText = "Close";
         cancel.type = "button";        
         cancel.onclick = () => inst.hide();
 
-        var submit = doc.createElement("button");
+        var submit = inst._submit$ = doc.createElement("button");
         submit.className = "fields-submit"
-        submit.innerText = "Submit";
+        submit.innerText = "Send";
         submit.type = "button";        
         submit.onclick = () => inst._onSubmitClick();
 
         var group = inst._fields$ = doc.createElement("group");
         group.className = "fields-group";
 
+        var success = inst._success$ = doc.createElement("p");
+        success.className = "fields-success";        
+        success.innerText = "Success! Your message was sent.";
+        success.style.display = "none";
+
         var form = doc.createElement("div");
         form.id = "fields-modal"
+        form.appendChild(success);
         form.appendChild(group);            
         form.appendChild(submit); 
         form.appendChild(cancel);           
@@ -166,6 +174,8 @@
     Form.prototype.hide = function() {
         var inst = this;
         inst.getRootElement().style.display = "none";
+
+        inst._success$.style.display = "none";
     }
 
     Form.prototype.show = function() {
@@ -182,6 +192,9 @@
     Form.prototype._onSubmitClick = function() {
         var inst = this;
         var data = {};
+
+        inst._submit$.innerText = "Sending..";
+        inst._submit$.setAttribute("disabled", "disabled");
         
         Object.keys(inst._fields).forEach(function (key) {
             data[key] = inst._fields[key].getValue();
@@ -196,7 +209,15 @@
     }
 
     Form.prototype._onResponse = function() {
-        console.log(this);
+        var inst = this;
+
+        Object.keys(inst._fields).forEach(function (key) {
+            inst._fields[key].clearValue();
+        });
+
+        inst._submit$.innerText = "Send";
+        inst._submit$.removeAttribute("disabled");
+        inst._success$.style.display = "block";
     }
 
 
@@ -208,6 +229,7 @@
 
         var input = inst._input$ = doc.createElement("input");
         input.name = settings.name;
+        input.placeholder = settings.placeholder || "";
         input.type = settings.type;
 
         var control = inst._control$ = doc.createElement("div");
@@ -220,14 +242,16 @@
         }
     }
 
+    Field.prototype.clearValue = function() {
+        this._input$.value = "";
+    }
+
     Field.prototype.getRootElement = function() {
-        var inst = this;
-        return inst._control$;
+        return this._control$;
     }
 
     Field.prototype.getValue = function() {
-        var inst = this;
-        return inst._input$.value;
+        return this._input$.value;
     }
 
 
